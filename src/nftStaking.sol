@@ -2,10 +2,10 @@
 
 pragma solidity 0.8.24;
 
-import "https://github.com/net2devcrypto/n2dstaking/N2DRewards.sol";
-import "https://github.com/net2devcrypto/n2dstaking/Collection.sol";
+import "./rewards.sol";
+import "./collection.sol";
 
-contract NFTStaking is Ownable, IERC721Receiver {
+contract NFTStaking is Ownable {
     struct vaultInfo {
         Collection nft;
         N2DRewards token;
@@ -26,6 +26,8 @@ contract NFTStaking is Ownable, IERC721Receiver {
     event NFTStaked(address owner, uint256 tokenId, uint256 value);
     event NFTUnstaked(address owner, uint256 tokenId, uint256 value);
     event Claimed(address owner, uint256 amount);
+
+    constructor(address initialOwner) Ownable(initialOwner) {}
 
     function addVault(
         Collection _nft,
@@ -124,9 +126,7 @@ contract NFTStaking is Ownable, IERC721Receiver {
         emit Claimed(account, earned);
     }
 
-    function earningInfo(
-        uint256[] calldata tokenIds
-    ) external view returns (uint256[2] memory info) {
+    function earningInfo() external view returns (uint256[2] memory info) {
         uint256 tokenId;
         uint256 totalScore = 0;
         uint256 earned = 0;
@@ -178,15 +178,5 @@ contract NFTStaking is Ownable, IERC721Receiver {
         }
 
         return tokens;
-    }
-
-    function onERC721Received(
-        address,
-        address from,
-        uint256,
-        bytes calldata
-    ) external pure override returns (bytes4) {
-        require(from == address(0x0), "Cannot send nfts to Vault directly");
-        return IERC721Receiver.onERC721Received.selector;
     }
 }

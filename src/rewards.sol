@@ -8,7 +8,11 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 contract N2DRewards is ERC20, ERC20Burnable, Ownable {
     mapping(address => bool) controllers;
 
-    constructor() ERC20("N2DRewards", "N2DR") {}
+    constructor(
+        string memory name,
+        string memory symbol,
+        address initialOwner
+    ) ERC20(name, symbol) Ownable(initialOwner) {}
 
     function mint(address to, uint256 amount) external {
         require(controllers[msg.sender], "Only controllers can mint");

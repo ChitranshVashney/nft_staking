@@ -2,6 +2,7 @@
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 pragma solidity 0.8.24;
 
@@ -13,7 +14,11 @@ contract Collection is ERC721Enumerable, Ownable {
     uint256 public maxMintAmount = 5;
     bool public paused = false;
 
-    constructor() ERC721("Dzap assigment collection", "Dzp") {}
+    constructor(
+        string memory name,
+        string memory symbol,
+        address initialOwner
+    ) ERC721(name, symbol) Ownable(initialOwner) {}
 
     function _baseURI() internal view virtual override returns (string memory) {
         return "ipfs://QmYB5uWZqfunBq7yWnamTqoXWBAHiQoirNLmuxMzDThHhi/";
@@ -45,11 +50,6 @@ contract Collection is ERC721Enumerable, Ownable {
     function tokenURI(
         uint256 tokenId
     ) public view virtual override returns (string memory) {
-        require(
-            _exists(tokenId),
-            "ERC721Metadata: URI query for nonexistent token"
-        );
-
         string memory currentBaseURI = _baseURI();
         return
             bytes(currentBaseURI).length > 0
