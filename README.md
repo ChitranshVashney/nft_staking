@@ -146,7 +146,7 @@ $ anvil
 ### Deploy
 
 ```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+$ forge script script/DeployNFTStaking.s.sol --broadcast --rpc-url <YOUR_RPC_URL> --private-key <your_private_key>
 ```
 
 ### Cast
