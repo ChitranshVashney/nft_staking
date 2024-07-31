@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
 contract N2DRewards is ERC20, ERC20Burnable, Ownable {
-    mapping(address => bool) controllers;
+    mapping(address => bool) public controllers;
 
     constructor(
         string memory name,
@@ -33,5 +33,9 @@ contract N2DRewards is ERC20, ERC20Burnable, Ownable {
 
     function removeController(address controller) external onlyOwner {
         controllers[controller] = false;
+    }
+
+    function getController(address controller) external view returns (bool) {
+        return controllers[controller];
     }
 }
